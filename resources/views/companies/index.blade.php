@@ -6,7 +6,7 @@
             <div class="container">
                 <div class="col-sm-12">
                     <div class="page-header">
-                        <h1>Companies <small>List of companies</small></h1>
+                        <h1>List of Companies <small><a href="{{url('companies/create')}}" role="button">Create new Company</a></small></h1>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                         <td>{{$company->website}}</td>
                         <td>
                             <div class="btn-group" role="group" aria-label="...">
-                                <button type="button" class="btn btn-primary">Info</button>
+                                <a href="{{url('/companies/'.$company->id)}}" class="btn btn-info" role="button">Info</a>
                             </div>
                         </td>
                     </tr>

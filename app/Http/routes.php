@@ -11,17 +11,6 @@
 |
 */
 
-Route::get('/', 'UserController@index');
-
-Route::get('companies', 'CompanyController@index');
-Route::get('companies/create', 'CompanyController@create');
-Route::get('companies/{company_name}', 'CompanyController@show');
-Route::post('companies', 'CompanyController@store');
-
-Route::get('students', 'UserController@showAllStudents');
-Route::get('students/create', 'UserController@createStudent');
-Route::get('students/{student_id}', 'UserController@showStudent');
-Route::post('students', 'UserController@storeStudent');
 
 /*
 |--------------------------------------------------------------------------
@@ -35,5 +24,23 @@ Route::post('students', 'UserController@storeStudent');
 */
 
 Route::group(['middleware' => ['web']], function () {
-    //
+    Route::get('/', 'UserController@index');
+    Route::get('users/reg/{company_id}', 'UserController@reg');
+    Route::get('users/unreg/{company_id}', 'UserController@unreg');
+    Route::get('users/list', 'UserController@showUserList');
+    Route::resource('companies', 'CompanyController');
+
+    Route::resource('users', 'UserController');
+
+    Route::resource('posts', 'PostsController');
+
+    Route::auth();
+
+    Route::get('/home', 'HomeController@index');
+});
+
+Route::group(['middleware' => ['api']], function () {
+    Route::get('api/{user_id}',['uses'=>'UserController@returnUser', 'middleware'=>'auth.basic']);
+    Route::post('api',['uses'=>'UserController@createUser', 'middleware'=>'auth.basic']);
+    Route::delete('api/{user_id}',['uses'=>'UserController@deleteUser', 'middleware'=>'auth.basic']);
 });

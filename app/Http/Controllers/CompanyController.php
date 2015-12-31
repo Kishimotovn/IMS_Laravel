@@ -6,18 +6,24 @@ use App\Company;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Request;
+use App\Http\Requests\CreateCompanyRequest;
 
 class CompanyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin', ['except' => 'show']);
+        $this->middleware('auth');
+    }
+
     function index() {
         $companies = Company::all();
 
         return view('companies.index', compact('companies'));
     }
 
-    function show($company_name) {
-        $company = Company::where('name', $company_name)->firstOrFail();
+    function show($id) {
+        $company = Company::findOrFail($id);
 
 
 
@@ -28,17 +34,28 @@ class CompanyController extends Controller
         return view('companies.create');
     }
 
-    function store()
+    function store(CreateCompanyRequest $request)
     {
-        $input = Request::all();
-
-        $company = new Company;
-
-        $company->name = $input['name'];
-        $company->website = $input['website'];
+        $company = Company::Create($request->all());
 
         $company->save();
 
-        return $this->index();
+        return redirect('companies');
+    }
+
+    function edit($id) {
+        $company = Company::findOrFail($id);
+
+        return view('companies.edit', compact('company'));
+    }
+
+    function update(CreateCompanyRequest $request, $id)
+    {
+        $company = Company::findOrFail($id);
+
+        $company->update($request->all());
+
+        return redirect('companies');
     }
 }
+

@@ -9,6 +9,16 @@ class Company extends Model
     //
     protected $fillable = [
         'name',
-        'website'
+        'website',
+        'briefIntro',
+        'internPos',
+        'numberOfStudentNeeded',
+        'address',
+        'email',
+        'representative'
     ];
+
+    public function users() {
+        return $this->belongsToMany('App\User')->withTimestamps();
+    }
 }

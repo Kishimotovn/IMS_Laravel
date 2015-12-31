@@ -16,6 +16,12 @@ class CreateCompaniesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('website');
+            $table->text('briefIntro');
+            $table->string('internPos');
+            $table->integer('numberOfStudentNeeded');
+            $table->string('address');
+            $table->string('email');
+            $table->string('representative');
             $table->timestamps();
         });
     }

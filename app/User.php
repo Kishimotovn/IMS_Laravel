@@ -12,7 +12,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'firstname',
+        'lastname',
+        'email',
+        'password',
+        'alternative_email',
+        'role',
+        'photo',
+        'dob',
+        'descriptions'
+
     ];
 
     /**
@@ -23,4 +32,20 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function posts()
+    {
+        return $this->hasMany('App\Post');
+    }
+
+    public function isAdmin()
+    {
+        if ($this->role == 1) { return true;}
+        else {return false;}
+
+    }
+
+    public function companies() {
+        return $this->belongsToMany('App\Company')->withTimestamps();
+    }
 }
