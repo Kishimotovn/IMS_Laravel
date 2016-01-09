@@ -5,7 +5,7 @@
         <div class="container">
             <div class="col-sm-12">
                 <div class="page-header">
-                    <h1>{{$company->name}} <small>Company's information</small></h1>
+                    <h1>Hello {{$person->firstname}} <small>Student's information</small></h1>
                 </div>
             </div>
         </div>
@@ -20,29 +20,22 @@
             <div class="col-xs-6 col-md-9">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Student Information</h3>
+                        @if(Auth::user()->isAdmin() == true)
+                            <h3 class="panel-title"><a href={{url('users/'.$person->id.'/edit')}}>Student Information</a></h3>
+                        @else
+                            <h3 class="panel-title">Student Information</h3>
+                        @endif
+
                     </div>
                     <div class="panel-body">
                         <p>
-                            Name: {{$company->name}}
+                            Name: {{$person->firstname}} {{$person->lastname}}
                         <hr/>
-                        Website: {{$company->website}}
+                        Email: {{$person->email}}
                         <hr/>
-                        Email: {{$company->email}}
+                        dob: {{$person->dob}}
                         <hr/>
-                        Brief Intro: {{$company->briefIntro}}
-                        <hr/>
-                        @if (Auth::user()->companies() != null && Auth::user()->isAdmin() == true)
-
-                        @elseif(Auth::user()->companies() != null && Auth::user()->companies()->get()->find($company->id) == null)
-                            <a href={{url('users/reg/'.$company->id)}} class="btn btn-primary">Register</a>
-                        @elseif (Auth::user()->companies()->get()->count() >= 3)
-                            You have registered 3 companies already!
-                        @elseif($company->users()->get()->count() >= $company->numberOfStudentNeeded)
-                            This company has recruit enough Student!
-                        @else
-                            <a href={{url('users/unreg/'.$company->id)}} class="btn btn-primary">Unregister</a>
-                        @endif
+                        Descriptions: {{$person->descriptions}}
                         </p>
                     </div>
                 </div>
@@ -54,34 +47,30 @@
             <div class="col-xs-12">
                 <div class="panel panel-info">
                     <!-- Default panel contents -->
-                    <div class="panel-heading">List of students applied:</div>
+                    <div class="panel-heading">List of companies applied:</div>
                     <!-- Table -->
-                    @if($company->users() != null)
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th class="col-sm-3">Student Name</th>
-                            <th class="col-sm-7">Email</th>
+                            <th class="col-sm-3">Company Name</th>
+                            <th class="col-sm-7">Website</th>
                             <th class="col-sm-2">Register</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($company->users()->get() as $user)
+                        @foreach($applied_companies as $company)
                         <tr>
-                            <td>{{$user->firstname}}</td>
-                            <td>{{$user->email}}</td>
+                            <td>{{$company->name}}</td>
+                            <td>{{$company->website}}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="...">
-                                    <a href={{url('users/'.$user->id)}} type="button" class="btn btn-primary">Info</a>
+                                    <a href={{url('companies/'.$company->id)}} type="button" class="btn btn-primary">Info</a>
                                 </div>
                             </td>
                         </tr>
                         @endforeach
                         </tbody>
                     </table>
-                    @else
-                    <p>None</p>
-                    @endif
                 </div>
             </div>
         </div>

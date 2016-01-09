@@ -5,13 +5,13 @@
         <div class="container">
             <div class="col-sm-12">
                 <div class="page-header">
-                    <h1>Create a Company <small>Fill in the form below</small></h1>
+                    <h1>Edit {{$company->name}} <small>Fill in the form below</small></h1>
                 </div>
             </div>
         </div>
     </div>
-    {!! Form::open(['url' => 'companies']) !!}
-    @include('companies.form', ['submitBtnLabel' => 'Add Company'])
+    {!! Form::model($company, ['method' => 'PATCH','url' => 'companies/'.$company->id]) !!}
+    @include('companies.form', ['submitBtnLabel' => 'Update Company'])
     {!! Form::close() !!}
 
     @include('errors.list')
