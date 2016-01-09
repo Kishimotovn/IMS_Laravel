@@ -1,0 +1,10 @@
+How to install:
+- Install Composer at https://getcomposer.org/
+- open command prompt or terminal, and cd to the project’s folder
+- run: “composer install”
+- open phpMyAdmin, create a user name: “abc”, password: “ims” and a database name: “abc”
+- return command prompt and run “php artisan migrate”
+- run “php artisan key:generate”
+- run “php artisan serve”
+
+You can now access the page at localhost:8000
